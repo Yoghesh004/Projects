@@ -1,0 +1,1 @@
+The goal of this project was to develop an uplift model that could match customers to the top 10 merchants based on transactional data provided by American Express. This was achieved by analyzing customer transaction behavior over a period from 2020 to 2022 and identifying the incremental impact of different recommendations (both active and organic) on customer purchases.
