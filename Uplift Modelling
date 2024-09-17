@@ -1,0 +1,73 @@
+Project Overview:
+The goal of this project was to develop an uplift model that could match customers to the top 10 merchants based on transactional data provided by American Express. This was achieved by analyzing customer transaction behavior over a period from 2020 to 2022 and identifying the incremental impact of different recommendations (both active and organic) on customer purchases. Uplift modeling is crucial in marketing to differentiate between customers who are likely to respond positively due to an intervention (like a recommendation) and those who would make a purchase anyway, without needing additional incentives.
+
+Key Project Steps:
+Data Overview:
+Data Source: American Express transaction records for 1.2 million customers.
+Time Span: 2020-2022.
+Features: The dataset contained 67 features, which included customer demographics, transactional history, merchant attributes, recommendation types (active/organic), and behavioral features.
+Target Objective: Identify which customers were influenced by active recommendations and which made purchases organically, without direct intervention.
+Data Preparation:
+
+Splitting the Data:
+The data was divided into two distinct sets:
+
+Treated Group: Customers who were exposed to active recommendations (e.g., targeted campaigns or personalized suggestions).
+Control Group: Customers who were exposed to organic recommendations (e.g., non-targeted ads, passive suggestions).
+This distinction helped identify the incremental value of the active recommendations compared to the organic ones.
+
+Feature Engineering:
+Several important features were created to capture essential patterns in the data:
+
+Customer Transaction History: Average spend, frequency of transactions, and recency of purchases.
+Merchant Features: Type of merchant, average transaction value at a merchant, and category-specific purchase behaviors.
+Behavioral Attributes: Engagement with recommendations, past responses to recommendations, and loyalty indicators.
+Handling Imbalance:
+One challenge was that the treated and control groups were not evenly distributed. Balancing techniques like oversampling or undersampling were considered, but the final model was able to account for the imbalance using inverse propensity weighting.
+
+Modeling Approach:
+
+Uplift Modeling Technique:
+Uplift modeling differs from traditional classification models in that it focuses on measuring the incremental effect of a treatment (recommendation) on a customer's behavior rather than just predicting outcomes.
+
+The model was trained using the T-Learner approach:
+
+The T-Learner involves training two separate models:
+One to predict the outcome for the treated group.
+One to predict the outcome for the control group.
+The difference between the predicted probabilities of the two models represents the uplift score, which indicates how much the treatment (recommendation) increases the likelihood of a purchase.
+GradientBoostingRegressor as Estimator:
+The GradientBoostingRegressor was chosen as the base estimator for both models in the T-Learner due to its ability to handle large datasets and capture complex, non-linear relationships between the features and the outcome.
+
+Model Evaluation:
+
+Uplift Score Calculation:
+After training, the uplift score for each customer was calculated as the difference between the predicted outcomes for the treated and control groups. This score indicates the incremental impact of the active recommendations.
+
+Top 10 Merchant Matching:
+Once uplift scores were calculated, the model matched each customer to the top 10 merchants that they were most likely to respond to based on their uplift scores. This allowed for highly personalized merchant recommendations, maximizing the chances of influencing a purchase.
+
+Model Metrics:
+
+Uplift at Top Decile: This metric was used to measure how effective the model was at recommending merchants with the highest uplift potential.
+Cumulative Uplift: This shows the total impact of recommendations over all customers, calculated by aggregating the uplift scores.
+Precision and Recall for Uplift: These metrics were adapted to focus on the incremental effect, where the goal is not just to maximize customer engagement but to correctly identify those who would not have engaged without a recommendation.
+Key Challenges and Solutions:
+
+Data Imbalance:
+As mentioned earlier, there were fewer customers exposed to active recommendations compared to organic ones. This could have led to biased results, but the use of inverse propensity weighting helped correct for this.
+
+Model Complexity:
+Gradient Boosting is a complex algorithm that can be prone to overfitting, especially with such a large dataset. Techniques like cross-validation and early stopping were applied to ensure the model generalized well to unseen data.
+
+Feature Importance:
+One of the strengths of the GradientBoostingRegressor is its ability to provide insights into feature importance. The model revealed that factors like recency of purchases, merchant category, and customer loyalty were the most important in predicting the uplift score.
+
+Results:
+
+Incremental Value of Active Recommendations:
+The uplift model demonstrated that active recommendations had a significant incremental impact on a subset of customers. The model successfully identified those customers who were most likely to make purchases due to the recommendations, allowing American Express to optimize its marketing strategies.
+
+Improvement in Merchant Recommendations:
+By focusing on uplift scores, the model was able to provide more accurate and impactful merchant recommendations. The top 10 merchant matching allowed for a more personalized approach, leading to higher customer satisfaction and increased sales.
+
